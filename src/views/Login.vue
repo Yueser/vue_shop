@@ -2,9 +2,9 @@
   <div id='Login' @keyup.enter="userLogin(),enterDown()">
     <div class="login_box">
       <div class="avatar-box">
-        <img src='../../assets/logo.png' alt="">
+        <img src='../assets/logo.png' alt="">
       </div>
-      <el-form label-width="0px" class="login_form" :model.trim="loginForm" :rules="rules" ref="loginFormRef">
+      <el-form label-width="0px" class="login_form" :model="loginForm" :rules="rules" ref="loginFormRef">
         <el-form-item prop="username">
           <el-input prefix-icon="iconfont icon-user" v-model.trim="loginForm.username"  ref="userRef"/>
         </el-form-item>
@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: '',
-        password: '',
+        username: 'admin',
+        password: '123456',
       },
       rules: {
         username: [
