@@ -25,26 +25,26 @@
                 :cell-style="{'text-align':'center'}">
         <el-table-column type="index"/>
         <el-table-column label="用户名" prop="username"/>
-        <el-table-column label="邮箱" prop="email"/>
+        <el-table-column label="邮箱" prop="email" min-width="100px"/>
         <el-table-column label="电话" prop="mobile"/>
         <el-table-column label="角色" prop="role_name"/>
-        <el-table-column label="状态" width="100px">
+        <el-table-column label="状态" width="120px">
           <template v-slot="scope">
             <el-switch v-model="scope.row.mg_state" active-color="#409eff" inactive-color="#eeeeee"
                        @change="userStateChange(scope.row)"/>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200px">
+        <el-table-column label="操作" min-width="120px">
           <template v-slot="scope">
             <el-tooltip effect="dark" content="信息修改" placement="top-start" :enterable="false">
-              <el-button type="primary" icon="el-icon-edit" size="mini" @click="openDialog('changeUser',scope.row)"/>
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="openUDDialog('changeUser',scope.row)"/>
             </el-tooltip>
             <el-tooltip effect="dark" content="删除用户" placement="top" :enterable="false">
               <el-button type="danger" icon="el-icon-delete" size="mini"
                          @click="deleteUser(scope.row['id'],scope.$index)"/>
             </el-tooltip>
             <el-tooltip effect="dark" content="用户设置" placement="top-end" :enterable="false">
-              <el-button type="info" icon="el-icon-setting" size="mini"/>
+              <el-button type="info" icon="el-icon-setting" size="mini" @click="openURDialog(scope.row)"/>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -61,18 +61,19 @@
       </el-pagination>
     </el-card>
     <!--dialog-->
-    <UsersDialog ref="dialog" @Renew="getUserList"/>
+    <UsersDialog ref="UDDialog" @Renew="getUserList"/>
+    <UserRole ref="URDialog"/>
   </div>
 </template>
 
 <script>
 import UsersDialog from "@/components/home/users/UsersDialog";
+import UserRole from "@/components/home/users/UserRole";
 
 export default {
   name: "Users",
   data() {
     return {
-      dialogVisible: false,
       //查询条件
       queryInfo: {
         query: '',
@@ -118,8 +119,11 @@ export default {
       this.$message.success('设置成功')
     },
     // 打开dialog
-    openDialog(val, userInfo) {
-      this.$refs.dialog.openDialog(val, userInfo);
+    openUDDialog(val, userInfo) {
+      this.$refs.UDDialog.openDialog(val, userInfo);
+    },
+    openURDialog(user){
+      this.$refs.URDialog.openDialog(user);
     },
     // 这位用户请你从这个世界上消失掉吧
     async deleteUser(id, i) {
@@ -133,7 +137,7 @@ export default {
     }
   },
   components: {
-    UsersDialog
+    UsersDialog,UserRole
   },
   created() {
     this.getUserList();
@@ -148,10 +152,7 @@ export default {
   }
 
   .el-card {
-    .el-pagination {
-      margin-top: 15px;
-      text-align: center;
-    }
+
   }
 }
 </style>

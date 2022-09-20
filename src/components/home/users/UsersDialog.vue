@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-      title="添加用户"
+      :title="isAdd?'添加用户':'修改用户'"
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="closeCont"
